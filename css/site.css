@@ -1,0 +1,175 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    display: block;
+}
+
+#nav {
+    position: fixed;
+    z-index: 1;
+    width: 64px;
+    background-color: #ffffff82;
+    border-radius: 50%;
+    left: 50%;
+    top: 5%;
+    cursor: pointer;
+    transition: 0.5s;
+    opacity: 0.0;
+}
+
+#nav:hover {
+    opacity: 1.0;
+}
+
+#titlebar {
+    display: block;
+    position: fixed;
+    height: 32px;
+    width: 100%;
+}
+
+.maximized #titlebar {
+    width: 100%;
+    padding: 0;
+}
+
+#twitch_container {
+    position: fixed;
+    left: 0;
+    top: 32px;
+    height: calc(100% - 32px);
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+}
+
+#main {
+    position: fixed;
+    left: 0;
+    top: 32px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    height: calc(100% - 32px);
+    display: block;
+}
+
+#titlebar {
+    /* padding: 4px; */
+}
+
+#titlebar #drag-region {
+    width: 100%;
+    height: 100%;
+    -webkit-app-region: drag;
+}
+
+#titlebar {
+    color: #FFF;
+    background-color:#191919;
+}
+
+#titlebar #drag-region {
+    display: grid;
+    grid-template-columns: auto 138px;
+}
+
+#window-title {
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+    overflow-x: hidden;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 12px;
+}
+
+.maximized #window-title {
+    margin-left: 12px;
+}
+
+#window-title span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+}
+
+#window-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 46px);
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    font-family: "Segoe MDL2 Assets";
+    font-size: 10px;
+}
+
+#window-controls {
+    -webkit-app-region: no-drag;
+}
+
+#window-controls .button {
+    grid-row: 1 / span 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+#window-controls .button {
+    user-select: none;
+    cursor: default;
+}
+
+#window-controls .button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#window-controls .button:active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+#close-button:hover {
+    background: #E81123 !important;
+}
+
+#close-button:active {
+    background: #f1707a !important;
+    color: #000;
+}
+
+#min-button {
+    grid-column: 1;
+}
+
+#max-button,
+#restore-button {
+    grid-column: 2;
+}
+
+#close-button {
+    grid-column: 3;
+}
+
+#restore-button {
+    display: none !important;
+}
+
+.maximized #restore-button {
+    display: flex !important;
+}
+
+.maximized #max-button {
+    display: none;
+}

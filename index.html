@@ -24,6 +24,11 @@
                 <span id="window-title-content">TwitchApp3</span>
             </div>
 
+            <div id="window-channel">
+                <input id="window-channel-input"  onkeydown="enterChannel(event)" placeholder="channels"/>
+                <button id="window-channel-button" onclick="goChannel()">Go</button>
+            </div>
+
             <div id="window-controls">
                 <div class="button" id="min-button">
                     <span>&#xE921;</span>
@@ -42,11 +47,10 @@
         </div>
     </header>
     <div id="main">
-        <img alt="nav" id="nav" src="icons/nav.png" />
         <div id="twitch_container"></div>
     </div>
-    <script src="./dist/renderer.js"></script>
     <script src="https://player.twitch.tv/js/embed/v1.js"></script>
+    <script src="./dist/renderer.js"></script>
 </body>
 
 </html>

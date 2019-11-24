@@ -1,17 +1,12 @@
 declare global {
     interface Window {
-      require: any;
+        require: any;
     }
-  }
+}
 declare var Twitch: any;
-// declare var ELECTRON_DISABLE_SECURITY_WARNINGS: boolean;
 
 import { remote } from "electron";
-import * as prompt from "electron-prompt";
 
-
-
-// ELECTRON_DISABLE_SECURITY_WARNINGS = true;
 
 // When document has loaded, initialise
 document.onreadystatechange = () => {
@@ -61,6 +56,7 @@ const getStoragedChannel = () => {
         channel = "noway4u_sir";
     }
 
+    (document.getElementById("window-channel-input") as HTMLInputElement).value = channel;
     document.getElementById("window-title-content").innerText = "TwitchApp3 - " + channel;
     return channel;
 };
@@ -70,6 +66,7 @@ const setStoragedChannel = (channel: string) => {
         return;
     }
 
+    (document.getElementById("window-channel-input") as HTMLInputElement).value = channel;
     document.getElementById("window-title-content").innerText = "TwitchApp3 - " + channel;
     localStorage.setItem("channel", channel);
 };
@@ -80,29 +77,19 @@ const twitchOptions = {
     width: "100%",
 };
 
+const player = new Twitch.Player("twitch_container", twitchOptions);
 
-window.onload = () => {
-    const player = new Twitch.Player("twitch_container", twitchOptions);
+const goChannel = () => {
+    const newChannel = (document.getElementById("window-channel-input") as HTMLInputElement).value;
+    if (newChannel !== null) {
+        twitchOptions.channel = newChannel;
+        setStoragedChannel(newChannel);
+        player.setChannel(newChannel);
+    }
+}
 
-    document.getElementById("nav").addEventListener("mousedown", e => {
-        prompt({
-            label: "channel:",
-            inputAttrs: {
-                required: true,
-                type: "text",
-            },
-            // alwaysOnTop: true,
-            // menuBarVisible: false,
-            title: "settings",
-            type: 'input',
-            useHtmlLabel: true,
-            value: twitchOptions.channel,
-        }).then((newChannel: string) => {
-            if (newChannel !== null) {
-                twitchOptions.channel = newChannel;
-                setStoragedChannel(newChannel);
-                player.setChannel(newChannel);
-            }
-        }).catch(console.error);
-    });
+const enterChannel = (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+        goChannel();
+    }
 }

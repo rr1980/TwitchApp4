@@ -2,8 +2,10 @@
   "name": "TwitchApp4",
   "version": "1.0.0",
   "description": "",
+  "main": "./dist/main.js",
   "scripts": {
     "build": "tsc",
+    "pub": "electron-packager .",
     "watch": "tsc -w",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "start": "npm run build && electron ./dist/main.js"

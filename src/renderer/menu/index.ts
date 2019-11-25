@@ -83,7 +83,7 @@ export default class Menu {
             const errorListener = (event, message) => {
                 reject(new Error(message));
                 event.returnValue = null;
-                cleanup();
+                cleanup(); 
             };
 
             ipcMain.on('prompt-get-options:' + id, getOptionsListener);
@@ -94,7 +94,7 @@ export default class Menu {
             eWindow.on('closed', () => {
                 ipcMain.removeListener('prompt-get-options:' + id, getOptionsListener);
                 ipcMain.removeListener('prompt-post-data:' + id, postDataListener);
-                ipcMain.removeListener('prompt-error:' + id, postDataListener);
+                ipcMain.removeListener('prompt-error:' + id, postDataListener); 
                 resolve(null);
             });
 
@@ -103,7 +103,7 @@ export default class Menu {
             const promptUrl = url.format({
                 protocol: 'file',
                 slashes: true,
-                pathname: path.join(__dirname, 'dist', 'htmls', 'menu.html'),
+                pathname: path.join(__dirname, 'dist', 'menu.html'),
                 hash: id
             });
 

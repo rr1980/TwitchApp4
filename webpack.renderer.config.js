@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const spawn = require('child_process').spawn;
 const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -39,11 +40,16 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin({ verbose: true }),
         new ForkTsCheckerWebpackPlugin({
             reportFiles: ['./src/renderer/**/*']
         }),
         new webpack.NamedModulesPlugin(),
-        // new HtmlWebpackPlugin(),
+        new HtmlWebpackPlugin({  // Also generate a test.html
+            chunks: ['menu'],
+            filename: 'menu.html',
+            template: 'src/renderer/menu/menu.html'
+          }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
         })

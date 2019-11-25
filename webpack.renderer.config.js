@@ -10,11 +10,12 @@ module.exports = {
     mode: 'development',
     target: 'electron-renderer',
     entry: {
-        renderer: ['./src/renderer/renderer.ts'],
-        menu: ['./src/renderer/menu/menu.ts']
+        renderer: ['./src/renderer/renderer.ts']
+        // menu: ['./src/renderer/menu/menu.ts']
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
+        publicPath: __dirname + '/dist/',
         filename: '[name].js'
     },
     node: {
@@ -45,11 +46,11 @@ module.exports = {
             reportFiles: ['./src/renderer/**/*']
         }),
         new webpack.NamedModulesPlugin(),
-        new HtmlWebpackPlugin({  // Also generate a test.html
-            chunks: ['menu'],
-            filename: 'menu.html',
-            template: 'src/renderer/menu/menu.html'
-          }),
+        // new HtmlWebpackPlugin({
+        //     chunks: ['menu'],
+        //     filename: 'menu.html',
+        //     template: 'src/renderer/menu/menu.html'
+        //   }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
         })
@@ -60,7 +61,8 @@ module.exports = {
     devtool: 'source-map',
     devServer: {
         writeToDisk:true,
-        contentBase: path.join(__dirname, 'dist'),
+        contentBase: path.join(__dirname, './dist'),
+        publicPath : path.join(__dirname, './dist'),
         port: 2003,
         compress: true,
         noInfo: false,

@@ -1,5 +1,6 @@
 const electron = require('electron');
 const path = require('path');
+const electronLocalshortcut = require('electron-localshortcut');
 
 const BrowserWindow = electron.BrowserWindow;
 
@@ -15,6 +16,7 @@ export default class Main {
     }
 
     private static onClose() {
+        electronLocalshortcut.unregisterAll(Main.eWindow);
         Main.eWindow = null;
     }
 
@@ -45,7 +47,9 @@ export default class Main {
         Main.eWindow.loadFile(path.join(__dirname, "../index.html"));;
         Main.eWindow.on('closed', Main.onClose);
 
-        Main.eWindow.webContents.openDevTools();
+        electronLocalshortcut.register(Main.eWindow, 'Escape', () => {
+            Main.eWindow.webContents.send('toggle-title-bar', true);
+        });
     }
 
     static main(app: Electron.App, browserWindow: typeof BrowserWindow) {

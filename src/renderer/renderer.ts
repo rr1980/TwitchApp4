@@ -1,5 +1,5 @@
 import { remote } from "electron";
-import Menu from "./menu";
+import { ipcRenderer } from 'electron';
 
 declare global {
     interface Window {
@@ -14,6 +14,10 @@ document.onreadystatechange = () => {
 
         document.getElementById("window-channel-input").addEventListener('keydown', enterChannel);
         document.getElementById("window-channel-button").addEventListener('click', goChannel);
+
+        ipcRenderer.on('toggle-title-bar', (event, data) => {
+            console.log("toggle-title-bar", event, data);
+        });
     }
 };
 
@@ -75,41 +79,20 @@ const setStoragedChannel = (channel: string) => {
 const twitchOptions = {
     channel: getStoragedChannel(),
     height: "100%",
-    width: "100%", 
+    width: "100%",
 };
 
 const player = new Twitch.Player("twitch_container", twitchOptions);
 
-const goChannel = () => { 
-    const menu = new Menu({
-        title: 'Channel switch',
-        label: 'Channel:',
-        value: twitchOptions.channel,
-    }, remote.getCurrentWindow());
+const goChannel = () => {
 
     const oldChannel = twitchOptions.channel;
-
-    menu.Create().then((r: string) => {
-        if (r === null) {
-            console.debug("canceled!");
-        } else {
-            if (r.length > 0) {
-                if (r !== oldChannel) {
-                    twitchOptions.channel = r;
-                    setStoragedChannel(r);
-                    player.setChannel(r);
-                }
-            }
-            else {
-                const newChannel = (document.getElementById("window-channel-input") as HTMLInputElement).value;
-                if (newChannel !== null && newChannel !== oldChannel) {
-                    twitchOptions.channel = newChannel;
-                    setStoragedChannel(newChannel);
-                    player.setChannel(newChannel);
-                }
-            }
-        }
-    }).catch(console.error);
+    const newChannel = (document.getElementById("window-channel-input") as HTMLInputElement).value;
+    if (newChannel !== null && newChannel !== oldChannel) {
+        twitchOptions.channel = newChannel;
+        setStoragedChannel(newChannel);
+        player.setChannel(newChannel);
+    }
 }
 
 const enterChannel = (event: KeyboardEvent) => {

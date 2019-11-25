@@ -1,12 +1,15 @@
+import { remote } from "electron";
+
 declare global {
     interface Window {
         require: any;
     }
 }
 declare var Twitch: any;
+declare var Menu: any;
 
-import { remote } from "electron";
 
+// import Menu from 'menu';
 
 // When document has loaded, initialise
 document.onreadystatechange = () => {
@@ -80,12 +83,37 @@ const twitchOptions = {
 const player = new Twitch.Player("twitch_container", twitchOptions);
 
 const goChannel = () => {
-    const newChannel = (document.getElementById("window-channel-input") as HTMLInputElement).value;
-    if (newChannel !== null) {
-        twitchOptions.channel = newChannel;
-        setStoragedChannel(newChannel);
-        player.setChannel(newChannel);
-    }
+    const menu = new Menu({
+        title: 'Prompt example',
+        label: 'Channel:',
+        value: twitchOptions.channel,
+    }, remote.getCurrentWindow());
+
+    console.debug(menu);
+
+    const oldChannel = twitchOptions.channel;
+
+    menu.Create().then((r: string) => {
+        if (r === null) {
+            console.debug("canceled!");
+        } else {
+            if (r.length > 0) {
+                if (r !== oldChannel) {
+                    twitchOptions.channel = r;
+                    setStoragedChannel(r);
+                    player.setChannel(r);
+                }
+            }
+            else {
+                const newChannel = (document.getElementById("window-channel-input") as HTMLInputElement).value;
+                if (newChannel !== null && newChannel !== oldChannel) {
+                    twitchOptions.channel = newChannel;
+                    setStoragedChannel(newChannel);
+                    player.setChannel(newChannel);
+                }
+            }
+        }
+    }).catch(console.error);
 }
 
 const enterChannel = (event: KeyboardEvent) => {

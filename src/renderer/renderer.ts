@@ -8,8 +8,6 @@ declare global {
 }
 declare var Twitch: any;
 
-let navBarToggle = true;
-
 document.onreadystatechange = () => {
     if (document.readyState === "complete") {
         handleWindowControls();
@@ -19,29 +17,8 @@ document.onreadystatechange = () => {
         document.getElementById("window-channel-check").addEventListener('change', alwaysTop);
 
         ipcRenderer.on('toggle-title-bar', (event, data) => {
-            if (navBarToggle) {
-                // document.getElementById('titlebar').style.height = '0';
-                // document.getElementById('window-channel-input').style.display = 'none';
-                // document.getElementById('window-channel-button').style.display = 'none';
-
-                document.getElementById('main').style.top = '0';
-                document.getElementById('main').style.height = '100%';
-
-                document.getElementById('twitch_container').style.top = '0';
-                document.getElementById('twitch_container').style.height = '100%';
-            }
-            else {
-                // document.getElementById('titlebar').style.height = '32px';
-                // document.getElementById('window-channel-input').style.display = 'block';
-                // document.getElementById('window-channel-button').style.display = 'block';
-
-                document.getElementById('main').style.top = '32px';
-                document.getElementById('main').style.height = 'calc(100% - 32px)';
-
-                document.getElementById('twitch_container').style.top = '32px';
-                document.getElementById('twitch_container').style.height = 'calc(100% - 32px)';
-            }
-            navBarToggle = !navBarToggle;
+            document.getElementById('main').classList.toggle("max");
+            document.getElementById('twitch_container').classList.toggle("max");
         });
     }
 };

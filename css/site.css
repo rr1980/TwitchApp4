@@ -34,6 +34,7 @@ body {
     width: 100%;
     min-width: 100%;
     max-width: 100%;
+    transition: all 0.5s ease-in-out;
 }
 
 #main {
@@ -47,6 +48,12 @@ body {
     max-width: 100%;
     height: calc(100% - 32px);
     display: block;
+    transition: all 0.5s ease-in-out;
+}
+
+.max{
+    top: 0!important;
+    height: 100%!important;
 }
 
 #titlebar #drag-region {

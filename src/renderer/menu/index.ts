@@ -1,7 +1,7 @@
 
-const electron = require('electron');
-const path = require('path');
-const url = require('url');
+import  * as electron  from 'electron';
+import * as path from 'path';
+import * as url from 'url';
 
 const BrowserWindow = electron.remote.BrowserWindow;
 const ipcMain = electron.remote.ipcMain;
@@ -30,8 +30,6 @@ export default class Menu {
                     minWidth: this.DEFAULT_WIDTH,
                     minHeight: this.DEFAULT_HEIGHT,
                     resizable: false,
-                    title: 'Channel switch',
-                    label: 'Please input a value:',
                     alwaysOnTop: false,
                     value: null,
                     menuBarVisible: false
@@ -105,7 +103,7 @@ export default class Menu {
             const promptUrl = url.format({
                 protocol: 'file',
                 slashes: true,
-                pathname: path.join(__dirname, 'dist', 'menu', 'index.html'),
+                pathname: path.join(__dirname, 'dist', 'htmls', 'menu.html'),
                 hash: id
             });
 

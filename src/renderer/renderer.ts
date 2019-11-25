@@ -1,4 +1,5 @@
 import { remote } from "electron";
+import Menu from "./menu";
 
 declare global {
     interface Window {
@@ -6,22 +7,20 @@ declare global {
     }
 }
 declare var Twitch: any;
-declare var Menu: any;
 
-
-// import Menu from 'menu';
-
-// When document has loaded, initialise
 document.onreadystatechange = () => {
     if (document.readyState === "complete") {
         handleWindowControls();
+
+        document.getElementById("window-channel-input").addEventListener('keydown', enterChannel);
+        document.getElementById("window-channel-button").addEventListener('click', goChannel);
     }
 };
 
 function handleWindowControls() {
 
     const win = remote.getCurrentWindow();
-    // Make minimise/maximise/restore/close buttons work when they are clicked
+
     document.getElementById("min-button").addEventListener("click", (event) => {
         win.minimize();
     });
@@ -38,7 +37,6 @@ function handleWindowControls() {
         win.close();
     });
 
-    // Toggle maximise/restore buttons when maximisation/unmaximisation occurs
     toggleMaxRestoreButtons();
     win.on("maximize", toggleMaxRestoreButtons);
     win.on("unmaximize", toggleMaxRestoreButtons);
@@ -77,19 +75,17 @@ const setStoragedChannel = (channel: string) => {
 const twitchOptions = {
     channel: getStoragedChannel(),
     height: "100%",
-    width: "100%",
+    width: "100%", 
 };
 
 const player = new Twitch.Player("twitch_container", twitchOptions);
 
-const goChannel = () => {
+const goChannel = () => { 
     const menu = new Menu({
-        title: 'Prompt example',
+        title: 'Channel switch',
         label: 'Channel:',
         value: twitchOptions.channel,
     }, remote.getCurrentWindow());
-
-    console.debug(menu);
 
     const oldChannel = twitchOptions.channel;
 

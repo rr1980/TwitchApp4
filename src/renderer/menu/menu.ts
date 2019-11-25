@@ -1,5 +1,4 @@
-const fs = require('fs');
-const { ipcRenderer } = require('electron');
+import { ipcRenderer } from 'electron';
 
 let promptId = null;
 let promptOptions = null;
@@ -17,7 +16,7 @@ const promptCancel = () => {
 };
 
 const promptSubmit = () => {
-    const dataEl = document.querySelector('#data') as any;
+    const dataEl = document.getElementById('data') as any;
     const data = dataEl.value;
 
     ipcRenderer.sendSync('prompt-post-data:' + promptId, data);
@@ -38,12 +37,11 @@ window.onload = (() => {
         return promptError(error);
     }
 
-    document.querySelector('#label').innerHTML = promptOptions.label;
-    document.querySelector('#ok').addEventListener('click', () => promptSubmit());
-    document.querySelector('#cancel').addEventListener('click', () => promptCancel());
+    document.getElementById('label').innerHTML = promptOptions.label;
+    document.getElementById('ok').addEventListener('click', () => promptSubmit());
+    document.getElementById('cancel').addEventListener('click', () => promptCancel());
 
-    const dataEl = document.getElementById("data") as  any;
-
+    const dataEl = document.getElementById("data") as any;
 
     if (promptOptions.value) {
         dataEl.value = promptOptions.value;

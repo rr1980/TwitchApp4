@@ -67,25 +67,40 @@ body {
 }
 
 #window-channel{
+        /* position: absolute;
     -webkit-app-region: no-drag;
     display: block;
     display: flex;
     align-items: center;
     font-family: "Segoe UI", sans-serif;
-    font-size: 12px;
+    font-size: 12px; */
+
+    -webkit-app-region: no-drag;
+    display: grid;
+    grid-template-columns: 200px 50px;
+    position: absolute;
+    top: 0;
+    right: 200px;
+    height: 100%;
+    font-family: "Segoe MDL2 Assets";
+    font-size: 10px;
 }
 
 #window-channel-input{
+    grid-column: 1;
     background-color: #4c4c4c;
     color: white;
     border-color: transparent;
+    grid-row: 1 / span 1;
 }
 
 #window-channel-button{
+    grid-column: 2;
     background-color: #656363;
     border-color: transparent;
     color: white;
     cursor: pointer;
+    grid-row: 1 / span 1;
 }
 
 .maximized #window-title {
@@ -99,6 +114,7 @@ body {
 }
 
 #window-controls {
+    -webkit-app-region: no-drag;
     display: grid;
     grid-template-columns: repeat(3, 46px);
     position: absolute;
@@ -108,11 +124,6 @@ body {
     font-family: "Segoe MDL2 Assets";
     font-size: 10px;
 }
-
-#window-controls {
-    -webkit-app-region: no-drag;
-}
-
 #window-controls .button {
     grid-row: 1 / span 1;
     display: flex;

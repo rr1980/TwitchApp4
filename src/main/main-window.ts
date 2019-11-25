@@ -33,7 +33,7 @@ export default class Main {
     private static create() {
         Main.eWindow = new Main.BrowserWindow({
             width: 1366,
-            height: 800,
+            height: 768,
             autoHideMenuBar: true,
             darkTheme: true,
             titleBarStyle: 'hiddenInset',

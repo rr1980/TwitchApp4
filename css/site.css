@@ -11,6 +11,7 @@ body {
     display: block;
 }
 
+
 #titlebar {
     display: block;
     position: fixed;
@@ -53,64 +54,32 @@ body {
     height: 100%;
     -webkit-app-region: drag;
     display: grid;
-    grid-template-columns: auto 300px 138px;
+    grid-template-columns: 230px 50px 138px;
 }
 
-#window-title {
-    grid-column: 1;
+.window-title {
+    -webkit-app-region: no-drag;
     display: flex;
     align-items: center;
-    margin-left: 8px;
+    margin-left: 4px;
     overflow-x: hidden;
     font-family: "Segoe UI", sans-serif;
     font-size: 12px;
 }
 
-#window-channel{
-        /* position: absolute;
-    -webkit-app-region: no-drag;
-    display: block;
-    display: flex;
-    align-items: center;
-    font-family: "Segoe UI", sans-serif;
-    font-size: 12px; */
-
-    -webkit-app-region: no-drag;
-    display: grid;
-    grid-template-columns: 200px 50px;
-    position: absolute;
-    top: 0;
-    right: 200px;
-    height: 100%;
-    font-family: "Segoe MDL2 Assets";
-    font-size: 10px;
-}
-
 #window-channel-input{
-    grid-column: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
     background-color: #4c4c4c;
     color: white;
     border-color: transparent;
-    grid-row: 1 / span 1;
 }
 
 #window-channel-button{
-    grid-column: 2;
     background-color: #656363;
     border-color: transparent;
     color: white;
     cursor: pointer;
-    grid-row: 1 / span 1;
-}
-
-.maximized #window-title {
-    margin-left: 12px;
-}
-
-#window-title span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.5;
 }
 
 #window-controls {

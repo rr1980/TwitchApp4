@@ -1,6 +1,7 @@
 const electron = require('electron');
 const path = require('path');
 const electronLocalshortcut = require('electron-localshortcut');
+const aspect = require("electron-aspectratio");
 
 const BrowserWindow = electron.BrowserWindow;
 
@@ -8,6 +9,7 @@ export default class Main {
     static eWindow: Electron.BrowserWindow;
     static application: Electron.App;
     static BrowserWindow: any;
+    static mainWindowHandler: any;
 
     private static onWindowAllClosed() {
         if (process.platform !== 'darwin') {
@@ -16,7 +18,7 @@ export default class Main {
     }
 
     private static onClose() {
-        electronLocalshortcut.unregisterAll(Main.eWindow);
+        // electronLocalshortcut.unregisterAll(Main.eWindow);
         Main.eWindow = null;
     }
 
@@ -31,9 +33,12 @@ export default class Main {
     }
 
     private static create() {
+
         Main.eWindow = new Main.BrowserWindow({
             width: 1366,
             height: 768,
+            minWidth: 500,
+            minHeight: 281,
             autoHideMenuBar: true,
             darkTheme: true,
             titleBarStyle: 'hiddenInset',
@@ -44,8 +49,12 @@ export default class Main {
                 webSecurity: false
             }
         });
-        Main.eWindow.loadFile(path.join(__dirname, "../index.html"));;
+
         Main.eWindow.on('closed', Main.onClose);
+
+        Main.eWindow.loadFile(path.join(__dirname, "../index.html"));;
+        Main.mainWindowHandler = new aspect(Main.eWindow);
+        Main.mainWindowHandler.setRatio(16, 9, 1);
 
         electronLocalshortcut.register(Main.eWindow, 'Escape', () => {
             Main.eWindow.webContents.send('toggle-title-bar', true);

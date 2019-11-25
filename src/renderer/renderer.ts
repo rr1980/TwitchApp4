@@ -16,13 +16,13 @@ document.onreadystatechange = () => {
 
         document.getElementById("window-channel-input").addEventListener('keydown', enterChannel);
         document.getElementById("window-channel-button").addEventListener('click', goChannel);
+        document.getElementById("window-channel-check").addEventListener('change', alwaysTop);
 
         ipcRenderer.on('toggle-title-bar', (event, data) => {
-            console.log("toggle-title-bar", navBarToggle);
-            if(navBarToggle){
-                document.getElementById('titlebar').style.height = '0';
-                document.getElementById('window-channel-input').style.display = 'none';
-                document.getElementById('window-channel-button').style.display = 'none';
+            if (navBarToggle) {
+                // document.getElementById('titlebar').style.height = '0';
+                // document.getElementById('window-channel-input').style.display = 'none';
+                // document.getElementById('window-channel-button').style.display = 'none';
 
                 document.getElementById('main').style.top = '0';
                 document.getElementById('main').style.height = '100%';
@@ -30,10 +30,10 @@ document.onreadystatechange = () => {
                 document.getElementById('twitch_container').style.top = '0';
                 document.getElementById('twitch_container').style.height = '100%';
             }
-            else{
-                document.getElementById('titlebar').style.height = '32px';
-                document.getElementById('window-channel-input').style.display = 'block';
-                document.getElementById('window-channel-button').style.display = 'block';
+            else {
+                // document.getElementById('titlebar').style.height = '32px';
+                // document.getElementById('window-channel-input').style.display = 'block';
+                // document.getElementById('window-channel-button').style.display = 'block';
 
                 document.getElementById('main').style.top = '32px';
                 document.getElementById('main').style.height = 'calc(100% - 32px)';
@@ -87,7 +87,6 @@ const getStoragedChannel = () => {
     }
 
     (document.getElementById("window-channel-input") as HTMLInputElement).value = channel;
-    document.getElementById("window-title-content").innerText = "TwitchApp3 - " + channel;
     return channel;
 };
 
@@ -97,7 +96,6 @@ const setStoragedChannel = (channel: string) => {
     }
 
     (document.getElementById("window-channel-input") as HTMLInputElement).value = channel;
-    document.getElementById("window-title-content").innerText = "TwitchApp3 - " + channel;
     localStorage.setItem("channel", channel);
 };
 
@@ -124,4 +122,9 @@ const enterChannel = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
         goChannel();
     }
+}
+
+const alwaysTop = (event: any) => {
+    const win = remote.getCurrentWindow();
+    win.setAlwaysOnTop(event.target.checked);
 }

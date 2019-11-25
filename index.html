@@ -6,8 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
     <title>Document</title>
 
     <link rel="stylesheet" type="text/css" href="css/site.css">
@@ -21,14 +19,15 @@
     <header id="titlebar">
         <div id="drag-region">
 
-            <div id="window-title">
-                <span id="window-title-content">TwitchApp3</span>
+            <div class="window-title">
+                <input id="window-channel-input" placeholder="channels" />
+                <button id="window-channel-button">Go</button>
             </div>
 
-            <div id="window-channel">
-                    <input id="window-channel-input" placeholder="channels" />
-                    <button id="window-channel-button">Go</button>
-                </div>
+            <div class="window-title">
+                <input type="checkbox" name="window-channel-check" id="window-channel-check" />
+                <label for="window-channel-check">Top</label>
+            </div>
 
             <div id="window-controls">
                 <div class="button" id="min-button">

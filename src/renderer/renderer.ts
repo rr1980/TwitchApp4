@@ -16,6 +16,8 @@ document.onreadystatechange = () => {
         document.getElementById("window-channel-button").addEventListener('click', goChannel);
         document.getElementById("window-channel-check").addEventListener('change', alwaysTop);
 
+        buildDataListElements();
+
         ipcRenderer.on('toggle-title-bar', (event, data) => {
             document.getElementById('main').classList.toggle("max");
             document.getElementById('twitch_container').classList.toggle("max");
@@ -57,24 +59,80 @@ function handleWindowControls() {
 }
 
 const getStoragedChannel = () => {
-    let channel = localStorage.getItem("channel");
-    if (!channel) {
-        localStorage.setItem("channel", "noway4u_sir");
-        channel = "noway4u_sir";
+    let currentChannel = localStorage.getItem("currentChannel");
+    if (!currentChannel) {
+        localStorage.setItem("currentChannel", "noway4u_sir");
+        currentChannel = "noway4u_sir";
     }
 
-    (document.getElementById("window-channel-input") as HTMLInputElement).value = channel;
-    return channel;
+    const channels_string = localStorage.getItem("channels");
+    if (channels_string) {
+        const channels = JSON.parse(channels_string);
+        if (channels.length < 1) {
+            localStorage.setItem("channels", JSON.stringify(["noway4u_sir"]));
+        }
+    }
+    else {
+        localStorage.setItem("channels", JSON.stringify(["noway4u_sir"]));
+    }
+
+    (document.getElementById("window-channel-input") as HTMLInputElement).value = currentChannel;
+    return currentChannel;
 };
 
-const setStoragedChannel = (channel: string) => {
-    if (!channel) {
+const setStoragedChannel = (currentChannel: string) => {
+    if (!currentChannel) {
         return;
     }
 
-    (document.getElementById("window-channel-input") as HTMLInputElement).value = channel;
-    localStorage.setItem("channel", channel);
+    const channels_string = localStorage.getItem("channels");
+    if (channels_string) {
+        const channels = JSON.parse(channels_string);
+
+        if (!channels.find((x: string) => x === currentChannel)) {
+
+            channels.push(currentChannel);
+            localStorage.setItem("channels", JSON.stringify(channels));
+
+            buildDataListElements();
+        }
+    }
+
+    (document.getElementById("window-channel-input") as HTMLInputElement).value = currentChannel;
+    localStorage.setItem("currentChannel", currentChannel);
 };
+
+
+const buildDataListElements = () => {
+    const channels_string = localStorage.getItem("channels");
+    if (channels_string) {
+        const channels = JSON.parse(channels_string);
+        if (channels.length > 0) {
+            const select_class = "channel_selection";
+
+            const list = document.getElementById('window-channel-input-select');
+            const els = document.getElementsByClassName(select_class);
+
+            for (let index = 0; index < els.length; index++) {
+                const element = els[index];
+                list.removeChild(element);
+            }
+
+
+            channels.forEach((item) => {
+                const id = "channel_selection_" + item;
+                const el = document.getElementById(id);
+                if (!el) {
+                    const option = document.createElement('option');
+                    option.id = id;
+                    option.classList.add(select_class);
+                    option.value = item;
+                    list.appendChild(option);
+                }
+            });
+        }
+    }
+}
 
 const twitchOptions = {
     channel: getStoragedChannel(),

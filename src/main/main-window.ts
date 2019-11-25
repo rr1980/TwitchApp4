@@ -51,10 +51,17 @@ export default class Main {
         });
 
         Main.eWindow.on('closed', Main.onClose);
+        Main.eWindow.on('focus', () => {
+            Main.mainWindowHandler.setRatio(16, 9, 1);
+        });
+
+        Main.eWindow.on('blur', () => {
+            Main.mainWindowHandler.stop(16, 9, 1);
+        });
 
         Main.eWindow.loadFile(path.join(__dirname, "../index.html"));;
+
         Main.mainWindowHandler = new aspect(Main.eWindow);
-        Main.mainWindowHandler.setRatio(16, 9, 1);
 
         electronLocalshortcut.register(Main.eWindow, 'Escape', () => {
             Main.eWindow.webContents.send('toggle-title-bar', true);

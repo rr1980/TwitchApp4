@@ -20,8 +20,6 @@ const promptSubmit = () => {
     const dataEl = document.querySelector('#data') as any;
     const data = dataEl.value;
 
-    console.debug("submit", data);
-
     ipcRenderer.sendSync('prompt-post-data:' + promptId, data);
 };
 
@@ -39,8 +37,6 @@ window.onload = (() => {
     } catch (error) {
         return promptError(error);
     }
-
-    console.debug("test", promptOptions);
 
     document.querySelector('#label').innerHTML = promptOptions.label;
     document.querySelector('#ok').addEventListener('click', () => promptSubmit());
